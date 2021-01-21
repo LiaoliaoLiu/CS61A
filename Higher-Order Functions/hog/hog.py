@@ -275,7 +275,19 @@ def announce_highest(who, last_score=0, running_high=0):
     """
     assert who == 0 or who == 1, 'The who argument should indicate a player.'
     # BEGIN PROBLEM 7
-    "*** YOUR CODE HERE ***"
+    def say(score0, score1):
+        if who:
+            score = score1
+        else:
+            score = score0
+        
+        if score - last_score > running_high:
+            print(score - last_score, 'point(s)! The most yet for Player', who)
+            return announce_highest(who, score, score - last_score)
+        else:
+            return announce_highest(who, score, running_high)
+    
+    return say
     # END PROBLEM 7
 
 
@@ -315,7 +327,15 @@ def make_averaged(original_function, trials_count=1000):
     3.0
     """
     # BEGIN PROBLEM 8
-    "*** YOUR CODE HERE ***"
+    def calculate(*args):
+        sum = 0
+        for _ in range(trials_count):
+            sum += original_function(*args)
+        
+        return sum / trials_count
+    
+    return calculate
+        
     # END PROBLEM 8
 
 
@@ -329,7 +349,14 @@ def max_scoring_num_rolls(dice=six_sided, trials_count=1000):
     1
     """
     # BEGIN PROBLEM 9
-    "*** YOUR CODE HERE ***"
+    max_rolls, max_score = 1, 1
+    expected_score = make_averaged(roll_dice, trials_count)
+    for i in range(1, 11):
+        ith_score = expected_score(i, dice)
+        if ith_score > max_score:
+            max_score, max_rolls = ith_score, i
+
+    return max_rolls
     # END PROBLEM 9
 
 
@@ -378,7 +405,10 @@ def piggypoints_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     rolls NUM_ROLLS otherwise.
     """
     # BEGIN PROBLEM 10
-    return 6  # Replace this statement
+    if piggy_points(opponent_score) < cutoff:
+        return num_rolls
+    else:
+        return 0
     # END PROBLEM 10
 
 
@@ -388,13 +418,20 @@ def extra_turn_strategy(score, opponent_score, cutoff=8, num_rolls=6):
     Otherwise, it rolls NUM_ROLLS.
     """
     # BEGIN PROBLEM 11
-    return 6  # Replace this statement
+    piggy_increment = piggy_points(opponent_score)
+    score += piggy_increment
+    if extra_turn(score, opponent_score) or piggy_increment >= cutoff:
+        return 0
+    else:
+        return num_rolls  # Replace this statement
     # END PROBLEM 11
 
 
 def final_strategy(score, opponent_score):
     """Write a brief description of your final strategy.
-
+    If ignore piggy_points, rolling 6 dices in a turn gives the max expected points 8.66.
+    But this can not help much about the strategy. Because if you op use this roll 6 strategy, you can counter the op by rolling the dices with expected points which give you an extra turn, or vice versa.
+    I don't have a good idea, so I skip this problem now.
     *** YOUR DESCRIPTION HERE ***
     """
     # BEGIN PROBLEM 12
