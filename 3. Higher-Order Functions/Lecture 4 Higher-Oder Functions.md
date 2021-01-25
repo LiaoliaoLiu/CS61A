@@ -1,4 +1,4 @@
-# Video
+# Lecture 
 Higher-Order Functions: Functions manipulate other functions
 
 ## Designing functions
@@ -52,6 +52,8 @@ def make_adder(n)
 >>> square = lambda x: x * x
 >>> square(10)
 100
+>>> (lambda y: y+5)(4)
+9
 ```
 > lambda expresssions in Python cannot contain statements at all
 
@@ -276,3 +278,10 @@ Assignmenets for def statements use pointers to funcions, which can have differe
 
 # Hog
 Commentary part and make_averaged did a currying. -> why we need currying?
+
+# Q&A
+## Lambda Expressions
+You can not use statments in lambda expressions, but you can use this:
+```
+abs = lambda x: x if x > 0 else -x
+```

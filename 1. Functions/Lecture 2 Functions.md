@@ -1,4 +1,4 @@
-# Video
+# Lecture 
 ## Evaluation procedure for all expression:
 1. Evaluate the operator and then the operand subexpressions
 2. apply the funciton that is the value of the operator subexpression to the arguments that are the values of the operand subexpression
@@ -38,10 +38,16 @@ Function: binds names to expressions.(a more powerful means of abstraction)
 1. create a function with signature \<name>(\<formal parameters>)
 2. set theh body of that function to be everything indented(what tab does) after the first line
    1. the body doesn't excute until the function was called (squirrel)
-3. Bind \<name> to that function in the current frame
+3. Bind \<name> to that function in the current frame (parent)
 
+## Environment Diagrams for Nested Def Statements
+- Every user-defined function has a parent frame (often global)
+- The parent of a function is the frame in which it was defined
+- Every local frame has a parent frame (often global)
+- The parent of a frame is the parent of the function called
+  
 ## Procedure for calling/applying user-defined functions (version 1):
-1. add a local frame, forming a new environment(just like C run a function, a independent environment)
+1. add a local frame, forming a new environment(just like C run a function, an independent environment)
     ```
     global frame
     name | value
@@ -50,12 +56,13 @@ Function: binds names to expressions.(a more powerful means of abstraction)
     local frame
     name | value
     ```
-2. bind the function's formal parameters to its arguments in that frame
-3. execute the body of the function in that new envronment
+2. copy the parent of the function to the local frame: \[parent-\<label>]
+3. bind the function's formal parameters to its arguments in that frame.
+4. execute the body of the function in that new environment
 
 > an environment is a sequencce of frames
 > 
-> a name evaluates to the value bound to that name in the *earliest frame* of the current environment in which that name is found
+> a name evaluates to the value bound to that name in the *earliest frame* of the current environment in which that name is found. The earliest frame is found by its parent, if needed.
 e.g. to look up some name
 
 E.g., to look up some name in a function:

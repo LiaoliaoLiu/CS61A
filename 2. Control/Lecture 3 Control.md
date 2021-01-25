@@ -1,4 +1,4 @@
-# Video
+# Lecture 
 ## Print and None
 ```
 >>> print(None)
@@ -101,7 +101,7 @@ def f(x):
 - Bound name: the name in a frame
 
 ### Function Signature
-- Def: A description of the formal parameters of a function.
+- Def: A description of the formal parameters of a function. (name includes)
 - Functions differ in the number of arguments that they are allowed to take.
 
 ### Local names
@@ -151,6 +151,8 @@ In the *def* statement header, = does not perform assignment, but indicates a de
 
 # Ch. 1.5 Control
 Executing a control statement determines what the interpreter should do next.
+  - include if statement and while statement
+  - describe what happen next in the program
 
 ## Feature: *short-circuiting*
 Truth value of a logical expression can sometimes be determined without evaluating all of its subexpressions.
@@ -167,6 +169,18 @@ Tests are typically written in the same file or a neighboring file with the suff
         assert fib(2) == 1, 'The 2nd Fibonacci number should be 1'
         assert fib(3) == 1, 'The 3rd Fibonacci number should be 1'
         assert fib(50) == 7778742049, 'Error at the 50th Fibonacci number'
+```
+Use assert to regulate inputs:
+```
+>>> def test(a):
+...     assert a>0
+...     return a
+...
+>>> b = test(-1)
+Traceback (most recent call last):
+  File "<stdin>", line 1, in <module>
+  File "<stdin>", line 2, in test
+AssertionError
 ```
 ### Doctest
 Use
