@@ -182,15 +182,15 @@ def make_anonymous_factorial():
     """
     return (lambda f: f(f))(lambda f: (lambda n: n*f(f)(n-1) if n else 1))
 
-def function(f): # make function2 call itself, decorator
+def function(f): # call function2 with itself as argument, act like a decorator
     return f(f)
 
-def function2(f): # you need call it once to receive n
+def function2(f): # run function2(function2) to form a fact function
     def fact(n):
         if n:
-            n*f(f)(n-1)
+            return n*f(f)(n-1)
         else:
-            1
+            return 1
     return fact
 
-function(function2)
+# you logic should like : 1. come up with fact. 2. function2(function2) 3. lambda f: f(f)
