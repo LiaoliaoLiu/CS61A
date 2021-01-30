@@ -120,7 +120,7 @@ def max_subseq(n, t):
     def all_subseq(current_loc, t, parent, subseq):
         if t and current_loc < length:
             for i in range(current_loc, length-(t-1)):
-                all_subseq(i, t-1, parent + list_n[i] * pow(10, t-1), subseq)
+                all_subseq(i+1, t-1, parent + list_n[i] * pow(10, t-1), subseq)
         else:
             subseq += [parent]
 
