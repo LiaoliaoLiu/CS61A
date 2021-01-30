@@ -116,17 +116,20 @@ def max_subseq(n, t):
     list_n = list(map(int, str(n)))
     length = len(list_n)
     subseq = []
-    """
-    def all_subseq(current_loc, t, parent, subseq, list_n):
-        if t > 1 and current_loc < length:
-            for i in range(current_loc, length):
-                all_subseq(i, t-1, parent + list_n[current_loc] * pow(10, t-1), subseq, list_n)
-        else:
-            subseq += [parent+ list_n[current_loc] * pow(10, t-1)]
 
-    all_subseq(0, t, 0, subseq, list_n)
-    return max(subseq)
-    """
+    def all_subseq(current_loc, t, parent, subseq):
+        if t and current_loc < length:
+            for i in range(current_loc, length-(t-1)):
+                all_subseq(i, t-1, parent + list_n[i] * pow(10, t-1), subseq)
+        else:
+            subseq += [parent]
+
+    if t < length:
+        all_subseq(0, t, 0, subseq)
+        return max(subseq)
+    else:
+        return n
+    """this would be better if t >= length can be turned into basecase
     def all_subseq(list_n, t, parent, subseq):
         if t and list_n:
             for i in range(len(list_n)+1-t):
@@ -139,6 +142,7 @@ def max_subseq(n, t):
         return max(subseq)
     else:
         return n
+    """
 
 def add_chars(w1, w2):
     """
@@ -166,4 +170,10 @@ def add_chars(w1, w2):
     ...       ['For', 'While', 'Set', 'SetComp']) # Must use recursion
     True
     """
-    "*** YOUR CODE HERE ***"
+    if w1:
+        if w2[0] != w1[0]:
+            return w2[0] + add_chars(w1, w2[1:])
+        else:
+            return add_chars(w1[1:],w2[1:])
+    else:
+        return w2
