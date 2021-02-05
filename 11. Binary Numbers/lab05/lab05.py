@@ -315,14 +315,14 @@ def add_trees(t1, t2):
     """
     if not t1:
         return t2
-    elif not t2:
+    if not t2:
         return t1
 
     blen_t1 = len(branches(t1))
     blen_t2 = len(branches(t2))
     t1_branches = branches(t1) + (blen_t2 - blen_t1) * [[]]
     t2_branches = branches(t2) + (blen_t1 - blen_t2) * [[]]
-    return tree(label(t1) + label(t2), [add_trees(b[0], b[1]) for b in zip(t1_branches, t2_branches)])
+    return tree(label(t1) + label(t2), [add_trees(b1, b2) for b1, b2 in zip(t1_branches, t2_branches)])
 
 
 def build_successors_table(tokens):
