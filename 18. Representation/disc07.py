@@ -97,6 +97,7 @@ class Client:
         self.inbox = []
         self.server = server
         self.name = name
+        self.server.register_client(self, self.name) # you forgot this
 
     def compose(self, msg, recipient_name):
         """Send an email with the given message msg to the

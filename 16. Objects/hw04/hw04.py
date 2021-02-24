@@ -158,9 +158,9 @@ def permutations(seq):
             identifier = nex_seq.pop(i)
             #for x in permutations_helper(nex_seq):
             #    yield x + [identifier]
-            for x in permutations(nex_seq):
-                yield x + [identifier]
-            #yield from [x + [identifier] for x in permutations(nex_seq)]
+            #for x in permutations(nex_seq):
+            #    yield x + [identifier]
+            yield from [x + [identifier] for x in permutations(nex_seq)]
 
 
 def make_joint(withdraw, old_pass, new_pass):
