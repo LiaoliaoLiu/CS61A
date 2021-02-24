@@ -150,8 +150,8 @@ def permutations(seq):
             return all_seq
     # This definitely is pretty ugly, but I coundn't find a better way to deal with the yield requirement.
     """
-    if len(seq) == 1:           
-        yield [seq[0]]
+    if len(seq) == 0:           
+        yield []
     else:
         for i in range(len(seq)):
             nex_seq = list(seq)
@@ -160,6 +160,7 @@ def permutations(seq):
             #    yield x + [identifier]
             for x in permutations(nex_seq):
                 yield x + [identifier]
+            #yield from [x + [identifier] for x in permutations(nex_seq)]
 
 
 def make_joint(withdraw, old_pass, new_pass):
