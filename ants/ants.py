@@ -612,18 +612,18 @@ def apply_status(status, bee, length):
         It's more like "freeze" instead of "slow":
         - An ant can be applied the same status multiple times.
         - A counter will attach the ant each time the status is applied.
-        - In odd turns the ONLY action is that the LATEST slow counter reduces 1 if it was slowed. (why I cap LATEST? see ok --case 9)
+        - In odd turns the ONLY action is that the LATEST slow counter reduces 1 if it was slowed. (why I cap LATEST? see --case 9)
         - In even turns the ant acts like non-slowed,
         - that is, go through the status stack, in this scenario ALL counter will reduce 1
         "apply_status adds the given status to the end of the list, so that it is applied **latest**."
         - Stautses are like a STACK instead of a QUEUE.
 
-        At first I thought statuses acts like a queue. The earliest status applied first, then goes to later statues, finally comes the bee.action.
+        At first I thought statuses acts like a queue. The earliest status applies first, then goes to later statues, finally comes the bee.action.
         That's why you see a selector append in .next. I used the list as a pointer because I need mutate the status that .next points to.
             - new_status.next is a pointer (list in this case)
-            - new_status.next[0] will return an actual action, a new_status decorator or the original bee.action
-            - this way I can mutate the *action* in previous created *slow_action* and *scared_action*
-        So it basically is a legacy from my early misconception. This problem is much simple than implementing this queue with the template.
+            - new_status.next[0] will return an action, a new_status decorator or the original bee.action
+            - this way I can mutate the *action* in previous created *slow_action* and *scared_action* functions
+        So it basically is a legacy from my early misconception. This problem is way more simple than implementing this queue with the template.
         See -- case 9 for why its not a queue.
         """
         if new_status.duration:
@@ -637,9 +637,9 @@ def apply_status(status, bee, length):
             bee.action(gamestate) 
             """
             # But I only create a tail without head, 
-            # which means I can not access the one debuff before later than this debuff instance.
+            # which means this instance can not access the debuff later than it.
             # So release memory it's impossible
-            # I was quite pissed off by this misconception and now it's 2 AM.
+            # I am quite pissed off by the queue misunderstanding and now it's 2 AM.
             # Add a head pointer you can release, for now, I just want to waste the computing resourse.
             new_status.next[0](gamestate)
 
@@ -773,7 +773,7 @@ class Hornet(Bee):
     damage = 0.25
 
     def action(self, gamestate):
-        for i in range(2):
+        for _ in range(2):
             if self.armor > 0:
                 super().action(gamestate)
 
