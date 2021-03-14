@@ -2,7 +2,7 @@
 Scheme is a Dialect of Lisp.
 ## Scheme Fundamentals
 Scheme programs consist of expressions, which can be:
-- Primitive expressions: 2, 3.3, true, +, quotient, ...
+- Primitive (atomic) expressions: 2, 3.3, true, +, quotient, ...
 - Combinations: (quotient 10 2), (not true), ...
 ```scheme
 > (quotient 10 2) ; numbers are self-evaluating, symbols are bound to values
@@ -14,12 +14,37 @@ Scheme programs consist of expressions, which can be:
         6))       ; Call expressions include an operator and 0 or more operands in parentheses
 ```
 
+### built-in functions:
+- +, -, *, /
+- =, >, >=, <, <=
+- quotient, modulo, even?, odd?, null?
+
+### =, eq?, equal?
+- *=* can only be used for comparing numbers.
+- *eq?* behaves like == in Python for comparing two non-pairs (numbers, booleans, etc.). Otherwise, *eq?* behaves like *is* in Python.
+- *equal?* compares pairs by determining if their cars are equal? and their cdrs are equal?(that is, they have the same contents). Otherwise, equal? behaves like eq?.
+```scheme
+scm> (define a '(1 2 3))
+a
+scm> (= a a)
+Error
+scm> (equal? a '(1 2 3))
+#t
+scm> (eq? a '(1 2 3))
+#f
+scm> (define b a)
+b
+scm> (eq? a b)
+#t
+```
+
 ## Special Forms
 A combination that is not a call expression is a special form:
 - **If** expression:        (if \<predicate> \<consequent> \<alternative>)
 - **And** and **or**:       (and \<e_1> ... \<e_n>), (or \<e_1> ... \<e_n>)
 - Binding symbols:          (define \<symbol> \<expression>)
 - New procedures:           (define (\<symbol> \<formal parameters>) \<body>)
+- lambda expression:        (lambda (\<param1> \<param2> ...) \<body>)
 ```scheme
 (define (sqrt x)
     (define (update guess)
@@ -71,6 +96,21 @@ c = math.sqrt(a * a + b * b)
 ```scheme
 scm> (cdr (list 1 2 3 4))
 (1 2 3 4)
+```
+Two other common ways of creating lists is using the built-in *list* procedure or the *quote* special form:
+- The list procedure takes in an arbitrary amount of arguments. Because it is a procedure, *all operands are evaluated* when list is called. A list is constructed with the values of these operands and is returned.
+- The *quote* special form takes in a single operand. It returns this operand exactly as is, *without evaluating it*. Note that this special form can be used to return any value, not just a list.
+```scheme
+scm> (define x 2)
+scm> (define y 3)
+scm> (list 1 x 3)
+(1 2 3)
+scm> (quote (1 x 3))
+(1 x 3)
+scm> '(1 x 3) ; Equivalent to the previous quote expression
+(1 x 3)
+scm> '(+ x y)
+(+ x y)
 ```
 
 ## Symbolic Programming
@@ -176,3 +216,22 @@ undefined
 - 24:42​ Is there non-local assignment in Scheme?
   - (set! balance (- balance amount)) Remember this is a mutation. You lose referential transparency
 - 27:54​ Do you need to know all the different equality testing procedures in Scheme?
+
+# Ch. 3.1 Interpreting Computer Programs
+This chapter focuses on the third fundamental element of programming: programs themselves. (The other two are functions and data)
+
+An interpreter, which determines the meaning of expressions in a programming language, is just another program.
+
+To appreciate this point is to change our images of ourselves as programmers. We come to see ourselves as designers of languages, rather than only users of languages designed by others.
+
+## 3.1.1 Programming Languages
+Many interpreters have an elegant common structure: two mutually recursive functions. The first evaluates expressions in environments; the second applies functions to arguments.
+
+These functions are recursive in that they are defined in terms of each other: applying a function requires evaluating the expressions in its body, while evaluating an expression may involve applying one or more functions.
+
+## 3.2.4 Symbolic Data
+In Scheme, any expression that is not evaluated is said to be *quoted*. This notion of quotation is derived from a classic philosophical distinction between a thing, such as a dog, which runs around and barks, and the word "dog" that is a linguistic construct for designating such things. When we use "dog" in quotation marks, we do not refer to some dog in particular but instead to a word. In language, quotation allow us to talk about language itself, and so it is in Scheme:
+```scheme
+scm> (list 'define 'list)
+(define list)
+```
