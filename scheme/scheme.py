@@ -39,6 +39,10 @@ def scheme_eval(expr, env, _=None): # Optional third argument is ignored
         "*** YOUR CODE HERE ***"
         eval_env = lambda first: scheme_eval(first, env)
         operator = eval_env(first)
+        if isinstance(operator, MacroProcedure):
+            # apply_macro will return a pair object because the body of macro evaluates to a scheme list
+            # A scheme list of source code, which could directly pass to scheme_eval as argument
+            return scheme_eval(operator.apply_macro(rest, env), env)
         operands = rest.map(eval_env)
         return scheme_apply(operator, operands, env)
         # END PROBLEM 4
@@ -446,6 +450,15 @@ def do_define_macro(expressions, env):
     """
     # BEGIN Problem 20
     "*** YOUR CODE HERE ***"
+    validate_form(expressions, 2) # Checks that expressions is a list of length at least 2
+    target = expressions.first
+    
+    if isinstance(target, Pair) and scheme_symbolp(target.first):
+        env.define(target.first, MacroProcedure(target.rest, expressions.rest, env))
+        return target.first
+    else:
+        bad_target = target.first if isinstance(target, Pair) else target
+        raise SchemeError('non-symbol: {0}'.format(bad_target))
     # END Problem 20
 
 
@@ -642,7 +655,11 @@ def optimize_tail_calls(original_scheme_eval):
         """Evaluate Scheme expression EXPR in environment ENV. If TAIL,
         return a Thunk containing an expression for further evaluation.
         """
-        if tail and not scheme_symbolp(expr) and not self_evaluating(expr):
+        if tail and not scheme_symbolp(expr) and not self_evaluating(expr): 
+        # Every possible Tail Context always begins by tail=False. 
+        # E.g., when you eval a if statement, although the consequence and alternative are in tail context,
+        # but you begin the whole if statment's evaluation by tail=False.
+        # And you evaluate the tail=True's in the following while statement
             return Thunk(expr, env)
 
         result = Thunk(expr, env)
