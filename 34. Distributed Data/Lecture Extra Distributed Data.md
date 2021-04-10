@@ -1,10 +1,10 @@
 # Lecture
 ## Comupter Systems
 Systems research enables application development by defining and implementing abstractions:
-- *Operating systems* provide a stable, consistent interface to unreliable, innconsisitent hardware
-- *Networks* provide a robust data transfer interface to constantly evolving communications infrastructure
-- *Databases* provide a declarative interface to complex software that stores and retrieves information efficiently
-- *Distributed systems provide a unified interface to a cluster of multiple machines
+- **Operating systems** provide a stable, consistent interface to unreliable, innconsisitent hardware
+- **Networks** provide a robust data transfer interface to constantly evolving communications infrastructure
+- **Databases** provide a declarative interface to complex software that stores and retrieves information efficiently
+- **Distributed systems** provide a unified interface to a cluster of multiple machines
 
 A unifying property of effective systems:
 > Hide complexity, but retain flexibility

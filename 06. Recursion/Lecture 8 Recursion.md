@@ -114,7 +114,7 @@ def sum_digits_rec(n, digit_sum):
         return digit_sum
     else:
         n, last = split(n)
-        return digit_sum_rec(n, digit_sum + last)
+        return sum_digits_rec(n, digit_sum + last)
 ```
 
 ## Q&A
@@ -197,4 +197,4 @@ Three common steps in a recursive definition:
 2. Make a recursive call with a simpler argument: if we know what factorial(n-1) is, the problem will be much simpler.
 3. Use your recursive call to solve full problem: now we can multiply factorial(n-1) by n to solve the problem
 
-> internal correctness and not running forever(halting)
+> internal correctness and not running forever (halting)

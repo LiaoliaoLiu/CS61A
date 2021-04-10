@@ -165,6 +165,19 @@ Quasiquotation is particularly convenient for generating Scheme expressions: You
 ```scheme
 (define (make-add-procedure n) `(lambda (d) (+ d ,n)))
 (make-add-procedure 2) => (lambda (d) (+ d 2))
+
+scm> (define (f idx) (cons '(idx 1) nil))
+f
+scm> (f 2)
+((idx 1))
+scm> (define (f idx) (cons (list idx 1) nil))
+f
+scm> (f 2)
+((2 1))
+scm> (define (f idx) (cons `(,idx 1) nil))
+f
+scm> (f 2)
+((2 1))
 ```
 
 ### Example: While Statement

@@ -127,12 +127,12 @@ StopIteration
 ```
 
 ### *yield from* Statement
-A *yield from* statement yields all values(one at a call) from an iterator or iterable.
+A *yield from* statement yields all values(one at a call) from an iterator or iterable. It evaluates the expression first, so the expression must evaluate to a generator.
 ```python
 def prefixes(s):
     if s:
-        yield from prefixes(s[:-1]) # It DONT yield anything in this line of code
-        yield s
+        yield from prefixes(s[:-1]) # It DOESN'T yield anything directly
+        yield s                     # The program pauses and waits for next call after this line
 
 def substrings(s):
     if s:
@@ -220,6 +220,7 @@ To execute a for statement:
 3
 ```
 
+If you iterate over a list, but change the contents of that list at the same time, you may not [visit all the elements](https://docs.python.org/3/tutorial/controlflow.html#for-statements).
 ## Generawtors and Yield Statements
 Generators do not use attributes of an object to track their progress through a series. Instead, they control the execution of the generator function, which runs until the next yield statement is executed each time the generator's \__next__ method is invoked.
 
@@ -374,8 +375,7 @@ However, there are two important caveats with nonlocal names:
 - A variable declared nonlocal must be dened in a parent frame which is not the global frame.
 - Names in the current frame cannot be overridden using the nonlocal keyword. This means we cannot have both a local and nonlocal binding with the same name in a single frame.
 
-Because nonlocal lets you modify bindings in parent frames, we call functions that
-use it mutable functions.
+Because nonlocal lets you modify bindings in parent frames, we call functions that use it mutable functions.
 
 ## Iterators
 In general, any object that can be iterated over in a for loop can be considered an iterable.

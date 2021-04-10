@@ -37,7 +37,7 @@ sql> select max(weight), kind from animals;
  max(weight) 	 kind 
  12000 	 t-rex 
 
-sql> select avg(weight), kind from animals; -- not meaningful
+sql> select avg(weight), kind from animals; -- This row doesn't exist.
  avg(weight) 	 kind 
  2009.3333333333333 	 cat 
 ```
@@ -86,6 +86,11 @@ sql> select weight/legs, count(*) from animals group by weight/legs having count
  5 	 2 
 ```
 > The WHERE clause filters out rows, the HAVING clause fillters out entire groups.
+
+Aggregation functions in having clause also will select a row.
+```SQL
+SELECT name, store from products, lowest_prices where name = item group by category having min(MSRP/rating);S
+```
 
 ## Q&A
 - 01:34​ When selecting a maximum row in the case of a tie, which gets selected?

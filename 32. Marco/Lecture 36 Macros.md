@@ -117,3 +117,22 @@ Similarly we can define a left fold *foldl* that folds a list starting from the 
 ![leftfold](imgs/leftfold.png)
 
 Also notice that a left fold is equivalent to Python's *reduce* with a starting value.
+
+```py
+identity = lambda x: x
+
+def foldl2(link, fn, z):
+    """ Write foldl using foldr
+    >>> list = Link(3, Link(2, Link(1)))
+    >>> foldl2(list, sub, 0) # (((0 - 3) - 2) - 1)
+    -6
+    >>> foldl2(list, add, 0) # (((0 + 3) + 2) + 1)
+    6
+    >>> foldl2(list, mul, 1) # (((1 * 3) * 2) * 1)
+    6
+    """
+    def step(x, g):
+        "*** YOUR CODE HERE ***"
+        return lambda z: g(fn(z, x))
+    return foldr(link, step, identity)(z)
+```
